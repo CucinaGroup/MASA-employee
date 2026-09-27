@@ -223,7 +223,7 @@ async function init(){
     const [st,staff,punches]=await Promise.all([
       api("settings?select=*&id=eq.1"),
       api("staff?select=*&order=sort.asc"),
-      api("punches?select=*&ts=gte."+(Date.now()-2*864e5)+"&order=ts.desc")
+      api("punches?select=*&ts=gte."+(Date.now()-8*864e5)+"&order=ts.desc")
     ]);
     applySettings(st&&st[0]);
     S.staff=(staff||[]).map(r=>({id:r.id,name:r.name,pin:r.pin,order:r.sort}));
@@ -414,7 +414,7 @@ function checkMgrPin(){ const v=(document.getElementById("mp").value||"").trim()
 function enterManager(){ screen="manager"; render(); refreshManager(); clearInterval(mgrTimer); mgrTimer=setInterval(refreshManager,15000); }
 function exitManager(){ clearInterval(mgrTimer); mgrTimer=null; screen="roster"; sheet=null; render(); }
 async function refreshManager(){
-  try{ const rows=await api("punches?select=*&ts=gte."+(Date.now()-2*864e5)+"&order=ts.desc");
+  try{ const rows=await api("punches?select=*&ts=gte."+(Date.now()-8*864e5)+"&order=ts.desc");
     S.punches=(rows||[]).map(fromRow); if(screen==="manager") render(); }catch(e){}
 }
 
